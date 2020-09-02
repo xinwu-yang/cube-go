@@ -1,0 +1,20 @@
+target
+resources/lib
+.DS_Store
+logs
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VSCode ###
+.project
+.settings
+.classpath
+.factorypath
+.vscode
+
+### modules ###
+cube-module
