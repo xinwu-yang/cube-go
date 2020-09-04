@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/mojocn/base64Captcha"
 	"strings"
 	"time"
 )
@@ -58,5 +59,42 @@ func (this *AccountApi) Login() {
 		ok.Result = &r
 		this.Data["json"] = &ok
 	}
+	this.ServeJSON()
+}
+
+func (this *AccountApi) RandomImage() {
+	codeType := this.Ctx.Input.Param(":type")
+	randColor := base64Captcha.RandColor()
+	var driver base64Captcha.Driver
+	if codeType == "string" {
+		driver = &base64Captcha.DriverString{
+			Width:           105,
+			Height:          35,
+			Length:          4,
+			Source:          base64Captcha.RandomId(),
+			ShowLineOptions: 5,
+			BgColor:         &randColor,
+
+			//Fonts:           []string{"fonts/wqy-microhei.ttc"},
+		}
+	} else if codeType == "audio" {
+		driver = &base64Captcha.DriverAudio{
+			Length:   4,
+			Language: "zh",
+		}
+	}
+
+	id, b64s, err := base64Captcha.NewCaptcha(driver, base64Captcha.DefaultMemStore).Generate()
+	if err != nil {
+		this.Data["json"] = result.Err(err.Error())
+		this.ServeJSON()
+		return
+	}
+	var ok = result.Ok("生成成功！")
+	r := make(map[string]interface{})
+	r["captchaId"] = id
+	r["b64s"] = b64s
+	ok.Result = &r
+	this.Data["json"] = &ok
 	this.ServeJSON()
 }
