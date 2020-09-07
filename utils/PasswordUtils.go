@@ -5,6 +5,7 @@ import (
 	"crypto/des"
 	"crypto/md5"
 	"encoding/base64"
+	"math/rand"
 	"strings"
 )
 
@@ -52,4 +53,13 @@ func Decrypt(password string, obtenationIterations int, cipherText string, salt 
 	decrypter.CryptBlocks(decrypted, msgBytes)
 	decryptedString := strings.TrimRight(string(decrypted), "\x01\x02\x03\x04\x05\x06\x07\x08")
 	return decryptedString, nil
+}
+
+func RandomSalt(length int) string {
+	base := "qwertyuioplkjhgfdsazxcvbnmQAZWSXEDCRFVTGBYHNUJMIKLOP0123456789"
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = base[rand.Intn(len(base))]
+	}
+	return string(b)
 }

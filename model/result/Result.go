@@ -16,6 +16,10 @@ func Ok(message string) Result {
 	return Result{Success: true, Code: 200, Message: message, Timestamp: time.Now().Unix()}
 }
 
+func OkWithBody(message string, obj interface{}) Result {
+	return Result{Success: true, Code: 200, Message: message, Result: obj, Timestamp: time.Now().Unix()}
+}
+
 func Err(message string) Result {
 	return Result{Success: false, Code: 500, Message: message, Timestamp: time.Now().Unix()}
 }

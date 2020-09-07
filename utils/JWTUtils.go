@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
@@ -8,8 +9,11 @@ import (
 func JwtSign(username string, password string) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": username,
-		"exp":      time.Now().Add(time.Hour * time.Duration(1)),
+		"exp":      time.Now().Add(time.Hour),
 	})
-	tokenStr, _ := token.SignedString(password)
+	tokenStr, err := token.SignedString([]byte(password))
+	if err != nil {
+		logs.Error(err.Error())
+	}
 	return tokenStr
 }
