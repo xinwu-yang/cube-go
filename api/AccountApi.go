@@ -100,7 +100,6 @@ func (this *AccountApi) Login() {
 	r["userInfo"] = sysUser
 	r["token"] = token
 	this.Data["json"] = result.OkWithBody("登录成功！", r)
-
 	this.ServeJSON()
 }
 
