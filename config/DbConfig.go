@@ -1,7 +1,7 @@
 package config
 
 import (
-	"com/tievd/cube/entity"
+	"com/tievd/cube/modules/system/entity"
 	"github.com/astaxie/beego/orm"
 )
 import _ "github.com/go-sql-driver/mysql"
